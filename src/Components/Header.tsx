@@ -44,6 +44,7 @@ const Item = styled.li`
   display: flex;
   justify-content: center;
   flex-direction: column;
+
   &:hover {
     color: ${(props) => props.theme.white.lighter};
   }
@@ -92,7 +93,7 @@ const logoVariants = {
     fillOpacity: 1,
   },
   active: {
-    fillOpacity: [0, 1, 0],
+    fillOpacity: [1, 0, 1],
     transition: {
       repeat: Infinity,
     },
