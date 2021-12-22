@@ -22,6 +22,7 @@ const SliderWrapper = styled.div`
   }
 
   &:hover {
+    z-index: 1;
     svg {
       display: block;
     }

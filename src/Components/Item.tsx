@@ -25,6 +25,27 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
   }
 `;
 
+const Info = styled(motion.div)`
+  padding: 10px;
+  background-color: ${(props) => props.theme.black.darker};
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  bottom: -130px;
+  height: 0px;
+  display: flex;
+  flex-direction: column;
+
+  h4 {
+    font-size: 18px;
+  }
+
+  span {
+    font-size: 13px;
+    opacity: 0.5;
+  }
+`;
+
 const BoxVariants = {
   normal: {
     scale: 1,
@@ -43,6 +64,8 @@ const BoxVariants = {
 const infoVariants = {
   hover: {
     opacity: 1,
+    height: "130px",
+
     transition: {
       delay: 0.5,
       duration: 0.3,
@@ -51,24 +74,13 @@ const infoVariants = {
   },
 };
 
-const Info = styled(motion.div)`
-  padding: 10px;
-  background-color: ${(props) => props.theme.black.lighter};
-  opacity: 0;
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  h4 {
-    text-align: center;
-    font-size: 18px;
-  }
-`;
-
 interface IProps {
   item: IMovie;
 }
 
 function Item({ item }: IProps) {
+  console.log(item);
+
   const history = useHistory();
   const onBoxClicked = (movieId: number) => {
     history.push(`/movies/${movieId}`);
@@ -81,12 +93,14 @@ function Item({ item }: IProps) {
       variants={BoxVariants}
       initial="normal"
       whileHover="hover"
-      onClick={() => onBoxClicked(item.id)}
       transition={{ type: "tween" }}
+      onClick={() => onBoxClicked(item.id)}
       bgPhoto={makeImagePath(item.backdrop_path, "w500")}
     >
       <Info variants={infoVariants}>
         <h4>{item.title}</h4>
+        <span>개봉일 {item.release_date}</span>
+        <h1>{item.vote_average}</h1>
       </Info>
     </Box>
   );

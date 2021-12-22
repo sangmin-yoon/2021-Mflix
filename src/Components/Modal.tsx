@@ -6,6 +6,7 @@ import { makeImagePath } from "../utils";
 
 const BigCover = styled.div`
   width: 100%;
+  z-index: 3;
   background-size: cover;
   background-position: center center;
   height: 50%;
@@ -29,6 +30,7 @@ const BigOverview = styled.p`
 
 const Overlay = styled(motion.div)`
   position: fixed;
+  z-index: 2;
   top: 0;
   width: 100%;
   height: 100%;
@@ -38,6 +40,7 @@ const Overlay = styled(motion.div)`
 
 const BigMovie = styled(motion.div)`
   position: absolute;
+  z-index: 3;
   width: 40vw;
   height: 80vh;
   left: 0;

@@ -22,6 +22,15 @@ export interface IGetMoviesResult {
   total_results: number;
 }
 
+export interface IDetailMovie {
+  genres: [
+    {
+      id: number;
+      name: string;
+    }
+  ];
+}
+
 export function getMovies() {
   return fetch(
     `${BASE_PATH}movie/now_playing?api_key=${API_KEY}&language=ko-KR`
@@ -31,5 +40,11 @@ export function getMovies() {
 export function getTopMovies() {
   return fetch(
     `${BASE_PATH}movie/top_rated?api_key=${API_KEY}&language=ko-KR`
+  ).then((response) => response.json());
+}
+
+export function getDetailMovies(id: number) {
+  return fetch(
+    `${BASE_PATH}movie/${id}?api_key=${API_KEY}&language=ko-KR`
   ).then((response) => response.json());
 }
