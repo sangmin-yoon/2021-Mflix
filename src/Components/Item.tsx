@@ -5,7 +5,6 @@ import { IMovie } from "../api";
 import { makeImagePath } from "../utils";
 
 const Box = styled(motion.div)<{ bgPhoto: string }>`
-  background-color: white;
   background-image: url(${(props) => props.bgPhoto});
   background-size: cover;
   background-position: center center;
@@ -32,7 +31,7 @@ const BoxVariants = {
   },
   hover: {
     scale: 1.3,
-    y: -80,
+    y: -60,
     transition: {
       delay: 0.5,
       duration: 0.3,

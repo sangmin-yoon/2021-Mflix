@@ -1,11 +1,35 @@
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 import styled from "styled-components";
 import { IGetMoviesResult } from "../api";
 import Item from "./Item";
 
 const SliderWrapper = styled.div`
   position: relative;
-  top: -100px;
+  display: flex;
+  top: -80px;
+  align-items: center;
+  height: 260px;
+  margin-top: 10px;
+
+  svg {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    display: none;
+  }
+
+  &:hover {
+    svg {
+      display: block;
+    }
+  }
+
+  @media (max-width: 1500px) {
+    height: 180px;
+  }
 `;
 
 const Row = styled(motion.div)`
@@ -16,6 +40,14 @@ const Row = styled(motion.div)`
   margin-bottom: 5px;
   position: absolute;
   width: 100%;
+`;
+
+const Title = styled.h2`
+  position: absolute;
+  font-weight: 500;
+  font-size: 18px;
+  top: 0;
+  left: 50px;
 `;
 
 const rowVariants = {
@@ -31,33 +63,54 @@ const rowVariants = {
 };
 
 interface IProps {
-  toggleLeaving: () => void;
-  index: number;
   data?: IGetMoviesResult;
-  offset: number;
+  title: string;
 }
 
-function Slider({ toggleLeaving, index, data, offset }: IProps) {
+const offset = 6;
+
+function Slider({ data, title }: IProps) {
+  const [index, setIndex] = useState(0);
+  const [leaving, setLeaving] = useState(false);
+
+  const increaseIndex = () => {
+    if (data) {
+      if (leaving) return;
+      toggleLeaving();
+      const totalMovies = data.results.length - 1;
+      const maxIndex = Math.floor(totalMovies / offset) - 1;
+      setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+    }
+  };
+  const toggleLeaving = () => setLeaving((prev) => !prev);
   return (
-    <SliderWrapper>
-      <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
-        <Row
-          variants={rowVariants}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          transition={{ type: "tween", duration: 1 }}
-          key={index}
-        >
-          {data?.results
-            .slice(1)
-            .slice(offset * index, offset * index + offset)
-            .map((item) => (
-              <Item item={item} />
-            ))}
-        </Row>
-      </AnimatePresence>
-    </SliderWrapper>
+    <>
+      <SliderWrapper>
+        <Title>{title}</Title>
+        <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
+          <Row
+            variants={rowVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            transition={{ type: "tween", duration: 1 }}
+            key={index}
+          >
+            {data?.results
+              .slice(1)
+              .slice(offset * index, offset * index + offset)
+              .map((item) => (
+                <Item key={item.id} item={item} />
+              ))}
+          </Row>
+        </AnimatePresence>
+        <FontAwesomeIcon
+          onClick={increaseIndex}
+          icon={faChevronRight}
+          size="2x"
+        />
+      </SliderWrapper>
+    </>
   );
 }
 
