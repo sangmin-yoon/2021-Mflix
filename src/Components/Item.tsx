@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
-import { IMovie } from "../api";
+import { IMovie, ITv } from "../api";
 import { makeImagePath } from "../utils";
 
 const Box = styled(motion.div)<{ bgPhoto: string }>`
@@ -74,14 +74,16 @@ const infoVariants = {
 };
 
 interface IProps {
-  item: IMovie;
+  item: any;
   title: string;
 }
 
 function Item({ item, title }: IProps) {
+  const match = useRouteMatch();
+
   const history = useHistory();
-  const onBoxClicked = (movieId: number) => {
-    history.push(`/movies/${movieId}`);
+  const onBoxClicked = (id: number) => {
+    history.push(`${match.url}/${id}`);
   };
 
   return (
@@ -95,8 +97,12 @@ function Item({ item, title }: IProps) {
       bgPhoto={makeImagePath(item.backdrop_path, "w500")}
     >
       <Info variants={infoVariants}>
-        <h4>{item.title}</h4>
-        <span>개봉일 {item.release_date}</span>
+        <h4>{item?.title || item?.name}</h4>
+        <span>
+          {item.release_date
+            ? "개봉일: " + item.release_date
+            : "첫 방영일: " + item.first_air_date}
+        </span>
         <h1>{item.vote_average}</h1>
       </Info>
     </Box>

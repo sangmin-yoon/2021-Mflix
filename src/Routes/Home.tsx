@@ -80,6 +80,7 @@ function Home() {
   }
 
   const bigMovieMatch = useRouteMatch<{ movieId: string }>("/movies/:movieId");
+
   const clickedMovie: any =
     bigMovieMatch?.params.movieId &&
     allData?.find((movie) => movie?.id === +bigMovieMatch.params.movieId);

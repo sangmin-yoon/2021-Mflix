@@ -116,7 +116,7 @@ interface IForm {
 
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
-  const homeMatch = useRouteMatch("/");
+  const moviesMatch = useRouteMatch("/movies");
   const tvMatch = useRouteMatch("/tv");
   const inputAnimation = useAnimation();
   const navAnimation = useAnimation();
@@ -167,8 +167,8 @@ function Header() {
         </Logo>
         <Items>
           <Item>
-            <Link to="/">
-              홈 {homeMatch?.isExact && <Circle layoutId="circle" />}
+            <Link to="/movies">
+              홈 {moviesMatch?.isExact && <Circle layoutId="circle" />}
             </Link>
           </Item>
           <Item>

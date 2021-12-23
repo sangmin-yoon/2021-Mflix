@@ -3,7 +3,7 @@ import React from "react";
 import { useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { getDetailMovies, IDetailMovie, IMovie } from "../api";
+import { getDetailMovies, getDetailTV, IDetail, IMovie } from "../api";
 import { makeImagePath } from "../utils";
 
 const BigCover = styled.div`
@@ -77,22 +77,32 @@ const OverViewTop = styled.div`
 `;
 
 interface IProps {
-  clicked?: IMovie;
+  clicked?: any;
   selectId?: string;
   title: string;
 }
 
 function Modal({ clicked, selectId, title }: IProps) {
-  const { data } = useQuery<IDetailMovie>(["movie", "detail"], () =>
+  const { data: movieD } = useQuery<IDetail>(["movie", "detail"], () =>
     getDetailMovies(+selectId!)
   );
 
-  console.log(data);
+  const { data: tvD } = useQuery<IDetail>(["tv", "detail"], () =>
+    getDetailTV(+selectId!)
+  );
+
+  let data: any;
+  if (clicked.title) {
+    data = movieD;
+  }
+  if (clicked.name) {
+    data = tvD;
+  }
 
   const history = useHistory();
   const { scrollY } = useViewportScroll();
 
-  const onOverlayClick = () => history.push("/");
+  const onOverlayClick = () => history.goBack();
 
   return (
     <>
@@ -121,11 +131,11 @@ function Modal({ clicked, selectId, title }: IProps) {
               ></BigCover>
             )}
             <OverViewTop>
-              <BigTitle>{clicked.title}</BigTitle>
+              <BigTitle>{clicked.title || clicked.name}</BigTitle>
               <SubWraap>
                 <h5>장르: </h5>
                 <span>
-                  {data?.genres?.map((item, index) =>
+                  {data?.genres?.map((item: any, index: number) =>
                     index === data.genres.length - 1
                       ? item.name
                       : item.name + ", "

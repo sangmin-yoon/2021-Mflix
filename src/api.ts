@@ -27,7 +27,7 @@ interface IGenres {
   name: string;
 }
 
-export interface IDetailMovie {
+export interface IDetail {
   genres: IGenres[];
   videos: {
     results: [
@@ -38,6 +38,29 @@ export interface IDetailMovie {
   };
   runtime: number;
 }
+
+export interface ITv {
+  backdrop_path: string;
+  id: number;
+  overview: string;
+  poster_path: string;
+  first_air_date: string;
+  name: string;
+  vote_average: number;
+}
+
+export interface IGetTvResult {
+  dates: {
+    maximum: string;
+    minimum: string;
+  };
+  page: number;
+  results: ITv[];
+  total_pages: number;
+  total_results: number;
+}
+
+/// Movies
 
 export function getMovies() {
   return fetch(
@@ -66,5 +89,19 @@ export function getPopularMovies() {
 export function getDetailMovies(id: number) {
   return fetch(
     `${BASE_PATH}movie/${id}?api_key=${API_KEY}&language=ko-KR&append_to_response=videos`
+  ).then((response) => response.json());
+}
+
+///TV
+
+export function getTV() {
+  return fetch(`${BASE_PATH}tv/popular?api_key=${API_KEY}&language=ko-KR`).then(
+    (response) => response.json()
+  );
+}
+
+export function getDetailTV(id: number) {
+  return fetch(
+    `${BASE_PATH}tv/${id}?api_key=${API_KEY}&language=ko-KR&append_to_response=videos`
   ).then((response) => response.json());
 }

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import styled from "styled-components";
-import { IGetMoviesResult } from "../api";
+import { IGetMoviesResult, IGetTvResult } from "../api";
 import Item from "./Item";
 
 const SliderWrapper = styled.div`
@@ -65,7 +65,7 @@ const rowVariants = {
 };
 
 interface IProps {
-  data?: IGetMoviesResult;
+  data?: IGetMoviesResult | IGetTvResult;
   title: string;
   setCTitle: Function;
 }
@@ -78,6 +78,8 @@ function Slider({ data, title, setCTitle }: IProps) {
 
   const clickTitle = (event: any) => {
     const T = event.currentTarget.title;
+    console.log(T);
+
     setCTitle(T);
   };
 
