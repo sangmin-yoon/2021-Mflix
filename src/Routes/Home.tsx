@@ -1,3 +1,4 @@
+import { AnimatePresence } from "framer-motion";
 import { useQuery } from "react-query";
 import { useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
@@ -73,10 +74,14 @@ function Home() {
           </Banner>
           <Slider data={data} title="지금 뜨는 콘텐츠" />
           <Slider data={topData} title="평점이 높은 콘텐츠" />
-          <Modal
-            movieId={bigMovieMatch?.params.movieId}
-            clickedMovie={clickedMovie}
-          />
+          <AnimatePresence>
+            {bigMovieMatch?.params.movieId ? (
+              <Modal
+                selectId={bigMovieMatch?.params.movieId}
+                clicked={clickedMovie}
+              />
+            ) : null}
+          </AnimatePresence>
         </>
       )}
     </Wrapper>

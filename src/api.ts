@@ -22,13 +22,21 @@ export interface IGetMoviesResult {
   total_results: number;
 }
 
+interface IGenres {
+  id: number;
+  name: string;
+}
+
 export interface IDetailMovie {
-  genres: [
-    {
-      id: number;
-      name: string;
-    }
-  ];
+  genres: IGenres[];
+  videos: {
+    results: [
+      {
+        key: string;
+      }
+    ];
+  };
+  runtime: number;
 }
 
 export function getMovies() {
@@ -45,6 +53,6 @@ export function getTopMovies() {
 
 export function getDetailMovies(id: number) {
   return fetch(
-    `${BASE_PATH}movie/${id}?api_key=${API_KEY}&language=ko-KR`
+    `${BASE_PATH}movie/${id}?api_key=${API_KEY}&language=ko-KR&append_to_response=videos`
   ).then((response) => response.json());
 }

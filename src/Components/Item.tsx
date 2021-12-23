@@ -32,7 +32,6 @@ const Info = styled(motion.div)`
   position: absolute;
   width: 100%;
   bottom: -130px;
-  height: 0px;
   display: flex;
   flex-direction: column;
 
@@ -52,7 +51,7 @@ const BoxVariants = {
   },
   hover: {
     scale: 1.3,
-    y: -60,
+    y: -70,
     transition: {
       delay: 0.5,
       duration: 0.3,
@@ -79,8 +78,6 @@ interface IProps {
 }
 
 function Item({ item }: IProps) {
-  console.log(item);
-
   const history = useHistory();
   const onBoxClicked = (movieId: number) => {
     history.push(`/movies/${movieId}`);
