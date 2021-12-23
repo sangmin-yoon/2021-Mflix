@@ -1,8 +1,16 @@
 import { AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import { useQuery } from "react-query";
 import { useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
-import { getMovies, getTopMovies, IGetMoviesResult, IMovie } from "../api";
+import {
+  getMovies,
+  getPopularMovies,
+  getTopMovies,
+  getUpcoming,
+  IGetMoviesResult,
+  IMovie,
+} from "../api";
 import Modal from "../Components/Modal";
 import Slider from "../Components/Slider";
 import { makeImagePath } from "../utils";
@@ -42,6 +50,8 @@ const Overview = styled.p`
 `;
 
 function Home() {
+  const [cTitle, setCTitle] = useState("");
+
   const { data, isLoading } = useQuery<IGetMoviesResult>(
     ["movies", "nowPlaying"],
     getMovies
@@ -51,16 +61,28 @@ function Home() {
     getTopMovies
   );
 
+  const { data: upcomingData } = useQuery<IGetMoviesResult>(
+    ["movies", "upcoming"],
+    getUpcoming
+  );
+
+  const { data: popularData } = useQuery<IGetMoviesResult>(
+    ["movies", "popular"],
+    getPopularMovies
+  );
+
   const allData = [];
   for (let i = 0; i < 20; ++i) {
     allData.push(data?.results[i]);
     allData.push(topData?.results[i]);
+    allData.push(upcomingData?.results[i]);
+    allData.push(popularData?.results[i]);
   }
 
   const bigMovieMatch = useRouteMatch<{ movieId: string }>("/movies/:movieId");
   const clickedMovie: any =
     bigMovieMatch?.params.movieId &&
-    allData?.find((movie) => movie!.id === +bigMovieMatch.params.movieId);
+    allData?.find((movie) => movie?.id === +bigMovieMatch.params.movieId);
 
   return (
     <Wrapper>
@@ -72,13 +94,28 @@ function Home() {
             <Title>{data?.results[0].title}</Title>
             <Overview>{data?.results[0].overview}</Overview>
           </Banner>
-          <Slider data={data} title="지금 뜨는 콘텐츠" />
-          <Slider data={topData} title="평점이 높은 콘텐츠" />
+          <Slider
+            data={data}
+            setCTitle={setCTitle}
+            title="지금 상영중인 영화"
+          />
+          <Slider
+            data={popularData}
+            setCTitle={setCTitle}
+            title="지금 뜨는 콘텐츠"
+          />
+          <Slider
+            data={topData}
+            setCTitle={setCTitle}
+            title="평점이 높은 콘텐츠"
+          />
+          <Slider data={upcomingData} setCTitle={setCTitle} title="개봉예정" />
           <AnimatePresence>
             {bigMovieMatch?.params.movieId ? (
               <Modal
                 selectId={bigMovieMatch?.params.movieId}
                 clicked={clickedMovie}
+                title={cTitle}
               />
             ) : null}
           </AnimatePresence>

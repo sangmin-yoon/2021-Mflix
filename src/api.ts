@@ -45,9 +45,21 @@ export function getMovies() {
   ).then((response) => response.json());
 }
 
+export function getUpcoming() {
+  return fetch(
+    `${BASE_PATH}movie/upcoming?api_key=${API_KEY}&language=ko-KR`
+  ).then((response) => response.json());
+}
+
 export function getTopMovies() {
   return fetch(
     `${BASE_PATH}movie/top_rated?api_key=${API_KEY}&language=ko-KR`
+  ).then((response) => response.json());
+}
+
+export function getPopularMovies() {
+  return fetch(
+    `${BASE_PATH}movie/popular?api_key=${API_KEY}&language=ko-KR`
   ).then((response) => response.json());
 }
 

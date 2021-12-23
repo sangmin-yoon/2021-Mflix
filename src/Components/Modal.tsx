@@ -1,4 +1,5 @@
 import { motion, useViewportScroll } from "framer-motion";
+import React from "react";
 import { useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
@@ -78,9 +79,10 @@ const OverViewTop = styled.div`
 interface IProps {
   clicked?: IMovie;
   selectId?: string;
+  title: string;
 }
 
-function Modal({ clicked, selectId }: IProps) {
+function Modal({ clicked, selectId, title }: IProps) {
   const { data } = useQuery<IDetailMovie>(["movie", "detail"], () =>
     getDetailMovies(+selectId!)
   );
@@ -99,7 +101,10 @@ function Modal({ clicked, selectId }: IProps) {
         exit={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       />
-      <BigMovie layoutId={selectId} style={{ top: scrollY.get() + 100 }}>
+      <BigMovie
+        layoutId={selectId + title}
+        style={{ top: scrollY.get() + 100 }}
+      >
         {clicked && (
           <>
             {data?.videos?.results[0]?.key ? (

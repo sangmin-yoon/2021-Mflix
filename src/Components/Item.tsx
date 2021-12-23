@@ -75,9 +75,10 @@ const infoVariants = {
 
 interface IProps {
   item: IMovie;
+  title: string;
 }
 
-function Item({ item }: IProps) {
+function Item({ item, title }: IProps) {
   const history = useHistory();
   const onBoxClicked = (movieId: number) => {
     history.push(`/movies/${movieId}`);
@@ -85,8 +86,7 @@ function Item({ item }: IProps) {
 
   return (
     <Box
-      key={item.id}
-      layoutId={item.id + ""}
+      layoutId={String(item.id) + title}
       variants={BoxVariants}
       initial="normal"
       whileHover="hover"

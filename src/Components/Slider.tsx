@@ -13,6 +13,7 @@ const SliderWrapper = styled.div`
   align-items: center;
   height: 260px;
   margin-top: 10px;
+  margin-bottom: 20px;
 
   svg {
     position: absolute;
@@ -66,13 +67,19 @@ const rowVariants = {
 interface IProps {
   data?: IGetMoviesResult;
   title: string;
+  setCTitle: Function;
 }
 
 const offset = 6;
 
-function Slider({ data, title }: IProps) {
+function Slider({ data, title, setCTitle }: IProps) {
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
+
+  const clickTitle = (event: any) => {
+    const T = event.currentTarget.title;
+    setCTitle(T);
+  };
 
   const increaseIndex = () => {
     if (data) {
@@ -90,18 +97,20 @@ function Slider({ data, title }: IProps) {
         <Title>{title}</Title>
         <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
           <Row
+            onClick={clickTitle}
             variants={rowVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
             transition={{ type: "tween", duration: 1 }}
             key={index}
+            title={title}
           >
             {data?.results
               .slice(1)
               .slice(offset * index, offset * index + offset)
-              .map((item) => (
-                <Item key={item.id} item={item} />
+              .map((item, index) => (
+                <Item key={String(index) + title} item={item} title={title} />
               ))}
           </Row>
         </AnimatePresence>

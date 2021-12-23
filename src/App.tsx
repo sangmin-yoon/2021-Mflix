@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { ReactQueryDevtools } from "react-query/devtools";
 import Header from "./Components/Header";
 import Home from "./Routes/Home";
 import Search from "./Routes/Search";
@@ -22,7 +21,6 @@ function App() {
           </Route>
         </Switch>
       </Router>
-      <ReactQueryDevtools initialIsOpen={true} />
     </>
   );
 }

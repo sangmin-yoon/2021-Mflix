@@ -4,7 +4,6 @@
 
 - react-query
 - react-hook-form
-- recoil
 - styled-components
 
 ## 예정
