@@ -1,128 +1,78 @@
-import { AnimatePresence } from "framer-motion";
-import { useState } from "react";
-import { useQuery } from "react-query";
-import { useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
-import {
-  getMovies,
-  getPopularMovies,
-  getTopMovies,
-  getUpcoming,
-  IGetMoviesResult,
-  IMovie,
-} from "../api";
-import Modal from "../Components/Modal";
-import Slider from "../Components/Slider";
-import { makeImagePath } from "../utils";
 
-const Wrapper = styled.div`
-  background: black;
-`;
-
-const Loader = styled.div`
-  height: 20vh;
+const FirstImg = styled.div<{ bgPhoto: string }>`
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 1)),
+    url(${(props) => props.bgPhoto});
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-bottom: 10px solid ${(props) => props.theme.black.lighter};
+  height: 90vh;
 `;
 
-const Banner = styled.div<{ bgPhoto: string }>`
-  height: 100vh;
+const LastWrapper = styled.div`
+  height: 70vh;
+  border-bottom: 10px solid ${(props) => props.theme.black.lighter};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 70px;
+`;
+
+const Content = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const LastImg = styled.div<{ bgPhoto: string }>`
+  background-image: url(${(props) => props.bgPhoto});
+  height: 100%;
+  width: 480px;
+  background-position: center center;
+  background-repeat: no-repeat;
+`;
+
+const OverView = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 60px;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 1)),
-    url(${(props) => props.bgPhoto});
-  background-size: cover;
-`;
-
-const Title = styled.h2`
-  font-size: 68px;
-  font-weight: 500;
-  margin-bottom: 20px;
-  width: 50%;
-`;
-
-const Overview = styled.p`
-  font-size: 36px;
-  width: 50%;
+  align-items: center;
+  h1 {
+    font-size: 65px;
+    font-weight: 500;
+    margin-bottom: 30px;
+  }
+  span {
+    font-size: 40px;
+    text-align: center;
+  }
 `;
 
 function Home() {
-  const [cTitle, setCTitle] = useState("");
-
-  const { data, isLoading } = useQuery<IGetMoviesResult>(
-    ["movies", "nowPlaying"],
-    getMovies
-  );
-  const { data: topData } = useQuery<IGetMoviesResult>(
-    ["movies", "topRated"],
-    getTopMovies
-  );
-
-  const { data: upcomingData } = useQuery<IGetMoviesResult>(
-    ["movies", "upcoming"],
-    getUpcoming
-  );
-
-  const { data: popularData } = useQuery<IGetMoviesResult>(
-    ["movies", "popular"],
-    getPopularMovies
-  );
-
-  const allData = [];
-  for (let i = 0; i < 20; ++i) {
-    allData.push(data?.results[i]);
-    allData.push(topData?.results[i]);
-    allData.push(upcomingData?.results[i]);
-    allData.push(popularData?.results[i]);
-  }
-
-  const bigMovieMatch = useRouteMatch<{ movieId: string }>("/movies/:movieId");
-
-  const clickedMovie: any =
-    bigMovieMatch?.params.movieId &&
-    allData?.find((movie) => movie?.id === +bigMovieMatch.params.movieId);
-
   return (
-    <Wrapper>
-      {isLoading ? (
-        <Loader>로딩중...</Loader>
-      ) : (
-        <>
-          <Banner bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}>
-            <Title>{data?.results[0].title}</Title>
-            <Overview>{data?.results[0].overview}</Overview>
-          </Banner>
-          <Slider
-            data={data}
-            setCTitle={setCTitle}
-            title="지금 상영중인 영화"
-          />
-          <Slider
-            data={popularData}
-            setCTitle={setCTitle}
-            title="지금 뜨는 콘텐츠"
-          />
-          <Slider
-            data={topData}
-            setCTitle={setCTitle}
-            title="평점이 높은 콘텐츠"
-          />
-          <Slider data={upcomingData} setCTitle={setCTitle} title="개봉예정" />
-          <AnimatePresence>
-            {bigMovieMatch?.params.movieId ? (
-              <Modal
-                selectId={bigMovieMatch?.params.movieId}
-                clicked={clickedMovie}
-                title={cTitle}
-              />
-            ) : null}
-          </AnimatePresence>
-        </>
-      )}
-    </Wrapper>
+    <>
+      <FirstImg bgPhoto="https://assets.nflxext.com/ffe/siteui/vlv3/61b1ed99-aa5e-4310-91cb-317f7140c653/f15095cf-da2d-427f-9939-1198c401e18a/KR-ko-20211220-popsignuptwoweeks-perspective_alpha_website_large.jpg">
+        <OverView>
+          <h1>영화와 시리즈를 무제한으로.</h1>
+          <span>
+            다양한 디바이스에서 시청하세요. 언제든 해지하실 수 있습니다.
+          </span>
+        </OverView>
+      </FirstImg>
+      <LastWrapper>
+        <Content>
+          <LastImg bgPhoto="https://assets.nflxext.com/ffe/siteui/acquisition/ourStory/fuji/desktop/mobile-0819.jpg" />
+          <OverView>
+            <h1>즐겨 보는 콘텐츠를 저장해 오프라인으로 시청하세요.</h1>
+            <span>간편하게 저장하고 빈틈없이 즐겨보세요.</span>
+          </OverView>
+        </Content>
+      </LastWrapper>
+    </>
   );
 }
 

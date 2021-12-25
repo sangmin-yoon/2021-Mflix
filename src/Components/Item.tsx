@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
-import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { IMovie, ITv } from "../api";
 import { makeImagePath } from "../utils";
 
 const Box = styled(motion.div)<{ bgPhoto: string }>`
@@ -13,10 +12,10 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
   font-size: 66px;
   cursor: pointer;
 
-  &:first-child {
+  &:nth-child(6n + 1) {
     transform-origin: center left;
   }
-  &:last-child {
+  &:nth-child(6n + 6) {
     transform-origin: center right;
   }
 

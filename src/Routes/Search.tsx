@@ -57,8 +57,6 @@ function Search() {
   movieData?.results.forEach((item) => allData.push(item));
   tvData?.results.forEach((item) => allData.push(item));
 
-  console.log(allData);
-
   const match = useRouteMatch<{ searchId: string }>("/search/:searchId");
 
   const clickedItem: any =
