@@ -175,14 +175,10 @@ function Header() {
         </Link>
         <Items>
           <Item>
-            <Link to="/movies">
-              영화 {moviesMatch?.isExact && <Circle layoutId="circle" />}
-            </Link>
+            <Link to="/movies">영화 {moviesMatch?.isExact && <Circle />}</Link>
           </Item>
           <Item>
-            <Link to="/tv">
-              시리즈 {tvMatch && <Circle layoutId="circle" />}
-            </Link>
+            <Link to="/tv">시리즈 {tvMatch && <Circle />}</Link>
           </Item>
         </Items>
       </Col>
