@@ -5,6 +5,7 @@ import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { RecoilRoot } from "recoil";
 import { theme } from "./theme";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { HelmetProvider } from "react-helmet-async";
 
 const GlobalStyled = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -79,8 +80,10 @@ ReactDOM.render(
     <RecoilRoot>
       <QueryClientProvider client={client}>
         <ThemeProvider theme={theme}>
-          <GlobalStyled />
-          <App />
+          <HelmetProvider>
+            <GlobalStyled />
+            <App />
+          </HelmetProvider>
         </ThemeProvider>
       </QueryClientProvider>
     </RecoilRoot>

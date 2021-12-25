@@ -1,5 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useQuery } from "react-query";
 import { useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
@@ -63,6 +64,9 @@ function Tv() {
 
   return (
     <Wrapper>
+      <Helmet>
+        <title>{`TV ${clickedTv ? "| " + clickedTv.name : ""}`}</title>
+      </Helmet>
       {isLoading ? (
         <Loader>로딩중...</Loader>
       ) : (

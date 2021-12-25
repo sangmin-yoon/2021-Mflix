@@ -1,4 +1,5 @@
 import { AnimatePresence } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 import { useQuery } from "react-query";
 import { useLocation, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
@@ -51,8 +52,6 @@ function Search() {
     () => getSearchTV(keyword)
   );
 
-  console.log(movieData);
-
   const allData: any = [];
   movieData?.results.forEach((item) => allData.push(item));
   tvData?.results.forEach((item) => allData.push(item));
@@ -65,6 +64,9 @@ function Search() {
 
   return (
     <>
+      <Helmet>
+        <title>Search</title>
+      </Helmet>
       <Wrapper>
         <Title>{keyword} 영화 검색결과</Title>
         {movieLoading ? (

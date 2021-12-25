@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import styled from "styled-components";
 
 const FirstImg = styled.div<{ bgPhoto: string }>`
@@ -55,6 +56,9 @@ const OverView = styled.div`
 function Home() {
   return (
     <>
+      <Helmet>
+        <title>Home</title>
+      </Helmet>
       <FirstImg bgPhoto="https://assets.nflxext.com/ffe/siteui/vlv3/61b1ed99-aa5e-4310-91cb-317f7140c653/f15095cf-da2d-427f-9939-1198c401e18a/KR-ko-20211220-popsignuptwoweeks-perspective_alpha_website_large.jpg">
         <OverView>
           <h1>영화와 시리즈를 무제한으로.</h1>
