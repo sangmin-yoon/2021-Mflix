@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
 import { IMovie, ITv } from "../api";
 import { makeImagePath } from "../utils";
@@ -79,11 +79,12 @@ interface IProps {
 }
 
 function Item({ item, title }: IProps) {
-  const match = useRouteMatch();
-
+  const match = useLocation();
   const history = useHistory();
   const onBoxClicked = (id: number) => {
-    history.push(`${match.url}/${id}`);
+    if (match.search !== "") {
+      history.push(`${match.pathname}/${id}${match.search}`);
+    } else history.push(`${match.pathname}/${id}`);
   };
 
   return (

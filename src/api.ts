@@ -100,8 +100,27 @@ export function getTV() {
   );
 }
 
+export function getTopTV() {
+  return fetch(
+    `${BASE_PATH}tv/top_rated?api_key=${API_KEY}&language=ko-KR`
+  ).then((response) => response.json());
+}
+
 export function getDetailTV(id: number) {
   return fetch(
     `${BASE_PATH}tv/${id}?api_key=${API_KEY}&language=ko-KR&append_to_response=videos`
+  ).then((response) => response.json());
+}
+
+/// search
+export function getSearchMovie(name: any) {
+  return fetch(
+    `${BASE_PATH}search/movie?api_key=${API_KEY}&language=ko-KR&query=${name}`
+  ).then((response) => response.json());
+}
+
+export function getSearchTV(name: any) {
+  return fetch(
+    `${BASE_PATH}search/tv?api_key=${API_KEY}&language=ko-KR&query=${name}`
   ).then((response) => response.json());
 }

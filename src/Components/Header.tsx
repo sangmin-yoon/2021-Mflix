@@ -14,6 +14,7 @@ const Nav = styled(motion.nav)`
   font-size: 14px;
   padding: 20px 60px;
   color: white;
+  z-index: 10;
 `;
 
 const Col = styled.div`
@@ -85,8 +86,11 @@ const Input = styled(motion.input)`
   z-index: -1;
   color: white;
   font-size: 16px;
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.5);
   border: 1px solid ${(props) => props.theme.white.lighter};
+  &::placeholder {
+    color: #d1cfcf;
+  }
 `;
 
 const logoVariants = {
@@ -133,9 +137,10 @@ function Header() {
   }, [scrollY, navVariants]);
 
   const history = useHistory();
-  const { register, handleSubmit } = useForm<IForm>();
+  const { register, handleSubmit, setValue } = useForm<IForm>();
   const onValid = (data: IForm) => {
     history.push(`/search?keyword=${data.keyword}`);
+    setValue("keyword", "");
   };
 
   const toggleSearch = () => {
@@ -168,7 +173,7 @@ function Header() {
         <Items>
           <Item>
             <Link to="/movies">
-              홈 {moviesMatch?.isExact && <Circle layoutId="circle" />}
+              영화 {moviesMatch?.isExact && <Circle layoutId="circle" />}
             </Link>
           </Item>
           <Item>

@@ -24,7 +24,6 @@ const BigOverview = styled.p`
   padding: 20px;
   font-size: 20px;
   top: -80px;
-
   color: ${(props) => props.theme.white.lighter};
 `;
 
@@ -48,7 +47,11 @@ const BigMovie = styled(motion.div)`
   margin: 0 auto;
   overflow: auto;
   border-radius: 15px;
-  background-color: ${(props) => props.theme.black.darker};
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 1) 60%,
+    rgba(47, 47, 47, 1) 92%
+  );
 `;
 
 const VideoCover = styled.iframe`

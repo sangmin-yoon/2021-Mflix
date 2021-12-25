@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useQuery } from "react-query";
 import { useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
-import { getTV, IGetTvResult } from "../api";
+import { getTopTV, getTV, IGetTvResult } from "../api";
 import Modal from "../Components/Modal";
 import Slider from "../Components/Slider";
 import { makeImagePath } from "../utils";
@@ -25,7 +25,7 @@ const Banner = styled.div<{ bgPhoto: string }>`
   flex-direction: column;
   justify-content: center;
   padding: 60px;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 1)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
     url(${(props) => props.bgPhoto});
   background-size: cover;
 `;
@@ -44,22 +44,22 @@ const Overview = styled.p`
 
 function Tv() {
   const [cTitle, setCTitle] = useState("");
-
   const { data, isLoading } = useQuery<IGetTvResult>(["tv", "popular"], getTV);
+  const { data: topData } = useQuery<IGetTvResult>(
+    ["tv", "topRated"],
+    getTopTV
+  );
 
   const allData = [];
   for (let i = 0; i < 20; ++i) {
     allData.push(data?.results[i]);
+    allData.push(topData?.results[i]);
   }
-
-  console.log(allData);
 
   const bigTvMatch = useRouteMatch<{ tvId: string }>("/tv/:tvId");
   const clickedTv: any =
     bigTvMatch?.params.tvId &&
     allData?.find((tv) => tv?.id === +bigTvMatch.params.tvId);
-
-  console.log("ddd" + clickedTv);
 
   return (
     <Wrapper>
@@ -75,6 +75,11 @@ function Tv() {
             data={data}
             setCTitle={setCTitle}
             title="현재 뜨고있는 TV시리즈"
+          />
+          <Slider
+            data={topData}
+            setCTitle={setCTitle}
+            title="평점이 높은 TV시리즈"
           />
 
           <AnimatePresence>

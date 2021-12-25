@@ -78,8 +78,6 @@ function Slider({ data, title, setCTitle }: IProps) {
 
   const clickTitle = (event: any) => {
     const T = event.currentTarget.title;
-    console.log(T);
-
     setCTitle(T);
   };
 
