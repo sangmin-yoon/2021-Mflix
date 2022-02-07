@@ -8,7 +8,7 @@ import Tv from "./Routes/Tv";
 function App() {
   return (
     <>
-      <Router basename="https://sangmin-yoon.github.io/2021-Mflix">
+      <Router basename="2021-Mflix">
         <Header />
         <Switch>
           <Route path={["/tv", "/tv/:tvId"]}>
