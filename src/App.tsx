@@ -20,7 +20,7 @@ function App() {
           <Route path={["/movies", "/:movieId"]}>
             <Movie />
           </Route>
-          <Route path="/">
+          <Route path={["/2021-Mflix", "/"]}>
             <Home />
           </Route>
         </Switch>
