@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { makeImagePath } from "../utils";
@@ -109,4 +110,4 @@ function Item({ item, title }: IProps) {
   );
 }
 
-export default Item;
+export default React.memo(Item);
